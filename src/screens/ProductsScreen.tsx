@@ -5,20 +5,32 @@ import {
   TouchableOpacity,
   SafeAreaView,
   FlatList,
-  Text,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamsList } from "../navigation/Navigation";
 import { Ionicons } from "@expo/vector-icons";
 import CardProduct from "../components/CardProduct";
+import { useGetData } from "../hooks/useGetData";
+import Loading from "../components/Loading";
+import AmountResults from "../components/ResultsList/AmountResults";
+import TagsCategories from "../components/ResultsList/TagsCategories";
 
 interface Prop
   extends NativeStackScreenProps<RootStackParamsList, "ProductsScreen"> {}
 
 export default function ProductsScreen({ route, navigation }: Prop) {
   const { textValue } = route.params;
-  const [value, setValue] = useState(textValue);
+  const [inputValue, setInputValue] = useState(textValue);
+  const [sent, setSent] = useState(true);
+  const { products, getData, isLoading, setProducts } = useGetData(inputValue);
+
+  useEffect(() => {
+    if (inputValue === "") {
+      setSent(false);
+      setProducts([]);
+    }
+  }, [inputValue]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -32,34 +44,53 @@ export default function ProductsScreen({ route, navigation }: Prop) {
     });
   }, []);
 
-  const headerComponent = () => {
+  const renderHeaderComponent = () => {
     return (
-      <View style={styles.wrapInputButton}>
-        <TextInput
-          placeholder="Buscar... Ej: Laptop, iPhone, MacBook..."
-          style={styles.input}
-          placeholderTextColor="#ccc"
-          value={value}
-          onChangeText={(text) => setValue(text)}
-        />
-        <TouchableOpacity activeOpacity={0.9} style={styles.button}>
-          <Ionicons name="search-outline" size={22} color="#f3f3f3" />
-        </TouchableOpacity>
-      </View>
+      <>
+        {inputValue !== "" && sent && (
+          <>
+            <AmountResults value={inputValue} amount={products.length} />
+            <TagsCategories products={products} />
+          </>
+        )}
+      </>
     );
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <FlatList
-          ListHeaderComponent={headerComponent}
-          data={[...Array(10)]}
-          keyExtractor={(_, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => <CardProduct />}
+      <View style={styles.wrapInputButton}>
+        <TextInput
+          placeholder="Buscar... Ej: Laptop, iPhone, MacBook..."
+          style={styles.input}
+          placeholderTextColor="#ccc"
+          value={inputValue}
+          onChangeText={(text) => setInputValue(text)}
         />
+        <TouchableOpacity
+          activeOpacity={0.9}
+          style={styles.button}
+          onPress={() => {
+            getData(), setSent(true);
+          }}
+        >
+          <Ionicons name="search-outline" size={22} color="#f3f3f3" />
+        </TouchableOpacity>
       </View>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <View>
+          <FlatList
+            data={products}
+            keyExtractor={(_, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+            ListHeaderComponent={() => renderHeaderComponent()}
+            renderItem={({ item }) => <CardProduct product={item} />}
+            contentContainerStyle={{ paddingBottom: 80 }}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 }

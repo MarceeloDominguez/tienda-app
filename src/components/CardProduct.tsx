@@ -1,20 +1,29 @@
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import ContentCardProduct from "./ContentCardProduct";
+import { Product } from "../interface/products";
 
-export default function CardProduct() {
+type Props = {
+  product: Product;
+};
+
+export default function CardProduct({ product }: Props) {
+  const { thumbnail, price, title, description, discountPercentage, rating } =
+    product;
+
   return (
     <TouchableOpacity style={styles.container} activeOpacity={0.9}>
       <View style={styles.wrapCard}>
         <View>
-          <Image
-            style={styles.image}
-            source={{
-              uri: "https://www.lenovo.com/medias/lenovo-laptop-ideapad-1-14-intel-gallery.png?context=bWFzdGVyfHJvb3R8MzU2MDk4fGltYWdlL3BuZ3xoMDUvaDM4LzE0MTg2OTE3MzMwOTc0LnBuZ3w1MTkyZDUzMThjM2Y4M2Q3YTg2NDZmOWFlYTc0OGJhODlhMDY0ZmUxNjUzZmU2YWM4MTU5ZjA2MTc1OTBkMGUy",
-            }}
-          />
+          <Image style={styles.image} source={{ uri: thumbnail }} />
         </View>
-        <ContentCardProduct />
+        <ContentCardProduct
+          price={price}
+          description={description}
+          discountPercentage={discountPercentage}
+          rating={rating}
+          title={title}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -25,7 +34,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1B2430",
     marginVertical: 10,
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 16,
   },
   wrapCard: {
     flexDirection: "row",
@@ -34,8 +43,7 @@ const styles = StyleSheet.create({
   image: {
     width: 130,
     height: 150,
-    borderRadius: 10,
-    resizeMode: "contain",
+    borderRadius: 16,
     backgroundColor: "#1B2430",
   },
 });

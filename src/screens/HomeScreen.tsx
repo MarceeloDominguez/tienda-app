@@ -26,6 +26,13 @@ interface Prop
 export default function HomeScreen({ navigation }: Prop) {
   const [textValue, setTextValue] = useState("");
 
+  const handleSubmit = () => {
+    if (textValue.trim() !== "") {
+      navigation.navigate("ProductsScreen", { textValue });
+      setTextValue("");
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#040D12" />
@@ -53,13 +60,12 @@ export default function HomeScreen({ navigation }: Prop) {
               placeholderTextColor="#ccc"
               value={textValue}
               onChangeText={(text) => setTextValue(text)}
+              onSubmitEditing={handleSubmit}
             />
             <TouchableOpacity
               activeOpacity={0.9}
               style={styles.button}
-              onPress={() =>
-                navigation.navigate("ProductsScreen", { textValue })
-              }
+              onPress={handleSubmit}
             >
               <Text style={styles.buttonTitle}>Buscar</Text>
             </TouchableOpacity>

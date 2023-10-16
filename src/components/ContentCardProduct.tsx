@@ -2,24 +2,41 @@ import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function ContentCardProduct() {
+type Props = {
+  price: number;
+  description: string;
+  discountPercentage: number;
+  rating: number;
+  title: string;
+};
+
+export default function ContentCardProduct({
+  price,
+  description,
+  discountPercentage,
+  rating,
+  title,
+}: Props) {
   return (
     <View style={styles.container}>
       <View>
         <Text numberOfLines={1} style={styles.title}>
-          Handcraft Chinese style
+          {title}
         </Text>
         <Text numberOfLines={3} style={styles.description}>
-          Handcraft Chinese style art luxury palace hotel villa mansion home
-          decor ceramic vase with brass fruit plate
+          {description}
         </Text>
       </View>
       <View style={styles.wrapFooter}>
         <Text style={styles.price}>
-          $999 <Text style={styles.discountPercentage}> 4% OFF</Text>
+          ${price}{" "}
+          <Text style={styles.discountPercentage}>
+            {" "}
+            {discountPercentage.toFixed(0)}% OFF
+          </Text>
         </Text>
         <Text style={styles.rating}>
-          <Ionicons name="star" size={15} color="#FFB000" /> 4.5
+          <Ionicons name="star" size={15} color="#FFB000" /> {rating.toFixed(1)}
         </Text>
       </View>
     </View>
@@ -57,8 +74,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   discountPercentage: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: "bold",
+    color: "#53B175",
   },
   rating: {
     textAlignVertical: "bottom",
