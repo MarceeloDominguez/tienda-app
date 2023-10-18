@@ -13,8 +13,10 @@ import { Ionicons } from "@expo/vector-icons";
 import CardProduct from "../components/CardProduct";
 import { useGetData } from "../hooks/useGetData";
 import Loading from "../components/Loading";
-import AmountResults from "../components/ResultsList/AmountResults";
-import TagsCategories from "../components/ResultsList/TagsCategories";
+import AmountResults from "../components/products/AmountResults";
+import TagsCategories from "../components/products/TagsCategories";
+import { COLORS } from "../util/theme";
+import IconCart from "../components/IconCart";
 
 interface Prop
   extends NativeStackScreenProps<RootStackParamsList, "ProductsScreen"> {}
@@ -36,11 +38,9 @@ export default function ProductsScreen({ route, navigation }: Prop) {
     navigation.setOptions({
       headerTitle: "",
       headerShadowVisible: false,
-      headerStyle: { backgroundColor: "#040D12" },
-      headerTintColor: "#f3f3f3",
-      headerRight: () => (
-        <Ionicons name="cart-outline" size={24} color="#f3f3f3" />
-      ),
+      headerStyle: { backgroundColor: COLORS.primary },
+      headerTintColor: COLORS.textPrimary,
+      headerRight: () => <IconCart />,
     });
   }, []);
 
@@ -74,7 +74,11 @@ export default function ProductsScreen({ route, navigation }: Prop) {
             getData(), setSent(true);
           }}
         >
-          <Ionicons name="search-outline" size={22} color="#f3f3f3" />
+          <Ionicons
+            name="search-outline"
+            size={22}
+            color={COLORS.textPrimary}
+          />
         </TouchableOpacity>
       </View>
       {isLoading ? (
@@ -98,7 +102,7 @@ export default function ProductsScreen({ route, navigation }: Prop) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#040D12",
+    backgroundColor: COLORS.primary,
     paddingHorizontal: 20,
   },
   wrapInputButton: {
@@ -107,16 +111,16 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   input: {
-    backgroundColor: "#1B2430",
+    backgroundColor: COLORS.card,
     height: 40,
     borderRadius: 10,
     paddingHorizontal: 10,
     marginVertical: 10,
-    color: "#f3f3f3",
+    color: COLORS.textPrimary,
     flex: 1,
   },
   button: {
-    backgroundColor: "#53B175",
+    backgroundColor: COLORS.secondary,
     height: 40,
     width: 40,
     alignItems: "center",

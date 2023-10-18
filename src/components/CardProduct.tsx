@@ -2,6 +2,10 @@ import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import ContentCardProduct from "./ContentCardProduct";
 import { Product } from "../interface/products";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamsList } from "../navigation/Navigation";
+import { COLORS } from "../util/theme";
 
 type Props = {
   product: Product;
@@ -11,8 +15,15 @@ export default function CardProduct({ product }: Props) {
   const { thumbnail, price, title, description, discountPercentage, rating } =
     product;
 
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamsList>>();
+
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.9}>
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={0.9}
+      onPress={() => navigation.navigate("DetailsScreen", { product })}
+    >
       <View style={styles.wrapCard}>
         <View>
           <Image style={styles.image} source={{ uri: thumbnail }} />
@@ -31,7 +42,7 @@ export default function CardProduct({ product }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#1B2430",
+    backgroundColor: COLORS.card,
     marginVertical: 10,
     padding: 10,
     borderRadius: 16,
@@ -41,9 +52,9 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   image: {
-    width: 130,
-    height: 150,
+    width: 120,
+    height: 120,
     borderRadius: 16,
-    backgroundColor: "#1B2430",
+    backgroundColor: COLORS.card,
   },
 });

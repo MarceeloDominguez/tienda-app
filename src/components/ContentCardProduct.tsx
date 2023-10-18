@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { COLORS } from "../util/theme";
 
 type Props = {
   price: number;
@@ -36,7 +37,7 @@ export default function ContentCardProduct({
           </Text>
         </Text>
         <Text style={styles.rating}>
-          <Ionicons name="star" size={15} color="#FFB000" /> {rating.toFixed(1)}
+          <Ionicons name="star" size={14} color="#FFB000" /> {rating.toFixed(1)}
         </Text>
       </View>
     </View>
@@ -47,18 +48,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between",
-    paddingVertical: 8,
   },
   title: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
-    color: "#f3f3f3",
+    color: COLORS.textPrimary,
     letterSpacing: 0.2,
   },
   description: {
     fontSize: 14,
-    color: "#f3f3f3",
-    opacity: 0.7,
+    color: COLORS.textSecondary,
     marginTop: 5,
     fontWeight: "600",
     letterSpacing: 0.2,
@@ -69,18 +68,19 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   price: {
-    color: "#f3f3f3",
-    fontSize: 18,
+    color: COLORS.textPrimary,
+    fontSize: 16,
     fontWeight: "bold",
   },
   discountPercentage: {
     fontSize: 12,
     fontWeight: "bold",
-    color: "#53B175",
+    color: COLORS.secondary,
   },
   rating: {
     textAlignVertical: "bottom",
     fontWeight: "bold",
-    color: "#f3f3f3",
+    color: COLORS.textPrimary,
+    fontSize: 13,
   },
 });

@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import { Product } from "../../interface/products";
+import { COLORS } from "../../util/theme";
 
 type Props = {
   products: Product[];
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1C603A",
   },
   text: {
-    color: "#f3f3f3",
+    color: COLORS.textPrimary,
     fontWeight: "bold",
     textTransform: "capitalize",
   },

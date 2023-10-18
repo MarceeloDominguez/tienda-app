@@ -5,7 +5,6 @@ import {
   Image,
   Dimensions,
   TextInput,
-  TouchableOpacity,
   SafeAreaView,
   ScrollView,
   KeyboardAvoidingView,
@@ -15,6 +14,8 @@ import {
 import React, { useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamsList } from "../navigation/Navigation";
+import { COLORS } from "../util/theme";
+import Button from "../components/Button";
 
 const { width } = Dimensions.get("window");
 
@@ -62,13 +63,7 @@ export default function HomeScreen({ navigation }: Prop) {
               onChangeText={(text) => setTextValue(text)}
               onSubmitEditing={handleSubmit}
             />
-            <TouchableOpacity
-              activeOpacity={0.9}
-              style={styles.button}
-              onPress={handleSubmit}
-            >
-              <Text style={styles.buttonTitle}>Buscar</Text>
-            </TouchableOpacity>
+            <Button title="Buscar" onPress={handleSubmit} />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -79,7 +74,7 @@ export default function HomeScreen({ navigation }: Prop) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#040D12",
+    backgroundColor: COLORS.primary,
   },
   contentImage: {
     alignItems: "center",
@@ -91,7 +86,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   title: {
-    color: "#f3f3f3",
+    color: COLORS.textPrimary,
     textAlign: "center",
     fontSize: 30,
     fontWeight: "bold",
@@ -104,30 +99,14 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   input: {
-    backgroundColor: "#1B2430",
+    backgroundColor: COLORS.card,
     height: 40,
     borderRadius: 10,
     paddingHorizontal: 10,
     marginVertical: 10,
-    color: "#f3f3f3",
+    color: COLORS.textPrimary,
   },
   inputWithMargin: {
     marginBottom: 50,
-    backgroundColor: "red",
-  },
-  button: {
-    backgroundColor: "#53B175",
-    height: 40,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: 10,
-    marginBottom: 20,
-  },
-  buttonTitle: {
-    color: "#f3f3f3",
-    fontWeight: "bold",
-    letterSpacing: 0.4,
-    fontSize: 16,
   },
 });
