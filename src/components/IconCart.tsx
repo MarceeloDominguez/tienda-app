@@ -5,8 +5,10 @@ import { COLORS } from "../util/theme";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamsList } from "../navigation/Navigation";
+import { useCartStore } from "../store/cartStore";
 
 export default function IconCart() {
+  const { productsInCart } = useCartStore();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamsList>>();
 
@@ -17,7 +19,7 @@ export default function IconCart() {
     >
       <Ionicons name="cart-outline" size={24} color={COLORS.textPrimary} />
       <View style={styles.wrapNumber}>
-        <Text style={styles.number}>10</Text>
+        <Text style={styles.number}>{productsInCart.length}</Text>
       </View>
     </TouchableOpacity>
   );

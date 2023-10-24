@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../util/theme";
+import { formatPrice } from "../util/formatPrice";
 
 type Props = {
   price: number;
@@ -30,7 +31,7 @@ export default function ContentCardProduct({
       </View>
       <View style={styles.wrapFooter}>
         <Text style={styles.price}>
-          ${price}{" "}
+          {formatPrice(price)}{" "}
           <Text style={styles.discountPercentage}>
             {" "}
             {discountPercentage.toFixed(0)}% OFF

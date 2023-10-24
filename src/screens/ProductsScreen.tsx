@@ -17,6 +17,7 @@ import AmountResults from "../components/products/AmountResults";
 import TagsCategories from "../components/products/TagsCategories";
 import { COLORS } from "../util/theme";
 import IconCart from "../components/IconCart";
+import Error from "../components/Error";
 
 interface Prop
   extends NativeStackScreenProps<RootStackParamsList, "ProductsScreen"> {}
@@ -25,7 +26,8 @@ export default function ProductsScreen({ route, navigation }: Prop) {
   const { textValue } = route.params;
   const [inputValue, setInputValue] = useState(textValue);
   const [sent, setSent] = useState(true);
-  const { products, getData, isLoading, setProducts } = useGetData(inputValue);
+  const { products, getData, isLoading, setProducts, error } =
+    useGetData(inputValue);
 
   useEffect(() => {
     if (inputValue === "") {
@@ -83,6 +85,8 @@ export default function ProductsScreen({ route, navigation }: Prop) {
       </View>
       {isLoading ? (
         <Loading />
+      ) : error ? (
+        <Error />
       ) : (
         <View>
           <FlatList
@@ -91,7 +95,7 @@ export default function ProductsScreen({ route, navigation }: Prop) {
             showsVerticalScrollIndicator={false}
             ListHeaderComponent={() => renderHeaderComponent()}
             renderItem={({ item }) => <CardProduct product={item} />}
-            contentContainerStyle={{ paddingBottom: 80 }}
+            contentContainerStyle={styles.contentContainerStyle}
           />
         </View>
       )}
@@ -126,5 +130,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
+  },
+  contentContainerStyle: {
+    paddingBottom: 80,
   },
 });

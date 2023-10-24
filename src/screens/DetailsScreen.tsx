@@ -7,12 +7,16 @@ import Images from "../components/details/Images";
 import ContentInfo from "../components/details/ContentInfo";
 import Button from "../components/Button";
 import IconCart from "../components/IconCart";
+import { useCartStore } from "../store/cartStore";
 
 interface Prop
   extends NativeStackScreenProps<RootStackParamsList, "DetailsScreen"> {}
 
 export default function DetailsScreen({ route, navigation }: Prop) {
   const { product } = route.params;
+  const { addProductToCart, productsInCart } = useCartStore();
+
+  const productInCart = productsInCart.find((item) => item.id === product.id);
 
   useEffect(() => {
     navigation.setOptions({
@@ -39,8 +43,15 @@ export default function DetailsScreen({ route, navigation }: Prop) {
           />
           <Text style={styles.description}>{product.description}</Text>
           <View style={styles.wrapButton}>
-            <Button title="Comprar Ahora" />
-            <Button title="Agregar al Carrito" backgroundColor="#1C603A" />
+            <Button title="Comprar ahora" />
+            <Button
+              title={
+                productInCart ? "Producto en el carrito" : "Agregar al carrito"
+              }
+              backgroundColor="#1C603A"
+              onPress={() => addProductToCart(product)}
+              productInCart={productInCart}
+            />
           </View>
         </View>
       </ScrollView>

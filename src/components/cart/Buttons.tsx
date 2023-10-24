@@ -1,24 +1,43 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 import { COLORS } from "../../util/theme";
+import { Product } from "../../interface/products";
+import { useCartStore } from "../../store/cartStore";
 
-export default function Buttons() {
+type Props = {
+  product: Product;
+};
+
+export default function Buttons({ product }: Props) {
+  const { id, quantity } = product;
+
+  const {
+    addProductToCart,
+    removeProductOfToOneFromTheCart,
+    removeProductFromCart,
+  } = useCartStore();
+
   return (
     <View style={styles.content}>
-      <TouchableOpacity activeOpacity={0.9}>
+      <TouchableOpacity
+        activeOpacity={0.9}
+        onPress={() => removeProductFromCart(id)}
+      >
         <Text style={styles.btnDelete}>Eliminar</Text>
       </TouchableOpacity>
       <View style={styles.wrapperBtn}>
         <TouchableOpacity
           style={styles.bntAddEndDeleteProduct}
           activeOpacity={0.9}
+          onPress={() => removeProductOfToOneFromTheCart(id)}
         >
           <Text style={styles.textBtn}>-</Text>
         </TouchableOpacity>
-        <Text style={styles.amountProduct}>10</Text>
+        <Text style={styles.amountProduct}>{quantity}</Text>
         <TouchableOpacity
           style={styles.bntAddEndDeleteProduct}
           activeOpacity={0.9}
+          onPress={() => addProductToCart(product)}
         >
           <Text style={styles.textBtn}>+</Text>
         </TouchableOpacity>

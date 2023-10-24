@@ -5,10 +5,15 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamsList } from "../navigation/Navigation";
 import ProductInCart from "../components/cart/ProductInCart";
 import Button from "../components/Button";
+import { useCartStore } from "../store/cartStore";
+import EmptyCart from "../components/cart/EmptyCart";
+import { formatPrice } from "../util/formatPrice";
 
 type Props = NativeStackScreenProps<RootStackParamsList>;
 
 export default function CartScreen({ navigation }: Props) {
+  const { productsInCart, getTotalPrice } = useCartStore();
+
   useEffect(() => {
     navigation.setOptions({
       headerTitle: "Mi carrito",
@@ -16,25 +21,27 @@ export default function CartScreen({ navigation }: Props) {
       headerStyle: { backgroundColor: COLORS.primary },
       headerTintColor: COLORS.textPrimary,
       headerTitleAlign: "center",
-      headerTitleStyle: {
-        color: COLORS.textPrimary,
-        fontSize: 15,
-        fontWeight: "bold",
-      },
+      headerTitleStyle: styles.titleHeader,
     });
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={[...Array(10)]}
-        keyExtractor={(_, index) => index.toString()}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentList}
-        renderItem={({ item }) => <ProductInCart />}
-      />
+      {productsInCart.length === 0 ? (
+        <EmptyCart />
+      ) : (
+        <FlatList
+          data={productsInCart}
+          keyExtractor={(_, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.contentList}
+          renderItem={({ item }) => <ProductInCart product={item} />}
+        />
+      )}
       <View style={styles.contentPay}>
-        <Text style={styles.priceTotal}>Total: $3000</Text>
+        <Text style={styles.priceTotal}>
+          Total: {formatPrice(getTotalPrice())}
+        </Text>
         <Button title="Comprar" />
       </View>
     </SafeAreaView>
@@ -68,5 +75,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     marginBottom: 10,
+  },
+  titleHeader: {
+    color: COLORS.textPrimary,
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });

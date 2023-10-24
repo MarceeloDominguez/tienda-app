@@ -1,6 +1,7 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 import { COLORS } from "../util/theme";
+import { Product } from "../interface/products";
 
 type Props = {
   backgroundColor?: string;
@@ -8,6 +9,7 @@ type Props = {
   height?: number;
   title: string;
   onPress?: () => void;
+  productInCart?: Product;
 };
 
 export default function Button({
@@ -16,12 +18,14 @@ export default function Button({
   height = 40,
   title,
   onPress,
+  productInCart,
 }: Props) {
   return (
     <TouchableOpacity
       activeOpacity={0.9}
       style={[styles.container, { backgroundColor, height }]}
       onPress={onPress}
+      disabled={productInCart ? true : false}
     >
       <Text style={[styles.textButton, { color }]}>{title}</Text>
     </TouchableOpacity>
